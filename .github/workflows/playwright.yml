@@ -18,6 +18,9 @@ jobs:
       - name: Run unit tests
         run: echo "No unit tests to run"
   test:
+    strategy:
+      matrix:
+        file: [example, example2]
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -25,12 +28,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+      - name: Run unit tests
+        run: echo "unit tests to ${{ matrix.file }}"
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test ${{ matrix.file }}.spec.ts
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
