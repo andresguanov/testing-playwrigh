@@ -23,6 +23,8 @@ jobs:
             ${{ runner.os }}-node-modules-
       - name: Install dependencies
         run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
   e2e:
     needs: install
     strategy:
