@@ -9,8 +9,6 @@ jobs:
   install:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    outputs:
-      node_modules_path: ${{ steps.save_node_modules.outputs.path }}
     steps:
       - uses: actions/checkout@v4
 
@@ -29,7 +27,7 @@ jobs:
         with:
           name: node_modules
           path: node_modules/
-          retention-days: 7 # Puedes ajustar este valor si deseas
+          retention-days: 7
 
   e2e:
     needs: install
@@ -50,6 +48,9 @@ jobs:
         with:
           name: node_modules
           path: ./node_modules
+
+      - name: Set up Playwright bin
+        run: echo "$(pwd)/node_modules/.bin" >> $GITHUB_PATH # Añadir el binario al PATH
 
       - name: Confirm node_modules restoration
         run: ls -la node_modules && echo "Node modules restored successfully."
