@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run unit tests
-        run: echo "No unit tests to run"
+        run: echo "No unit tests to runl"
   test:
     strategy:
       matrix:
