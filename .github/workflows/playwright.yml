@@ -8,6 +8,7 @@ on:
 concurrency:
   group: c-${{ github.ref }}
   cancel-in-progress: true
+
 jobs:
   unit:
     timeout-minutes: 60
