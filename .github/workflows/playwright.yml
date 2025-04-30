@@ -5,6 +5,7 @@ on:
   pull_request:
     types: [ready_for_review, synchronize]
     branches: [main, master]
+
 concurrency:
   group: c-${{ github.ref }}
   cancel-in-progress: true
