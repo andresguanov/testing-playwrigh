@@ -25,6 +25,22 @@ jobs:
         run: npm ci
       - name: Run unit tests
         run: echo "No unit tests to run"
+
+      - name: Current branches
+        run: 'echo "Current branches: ${{ github.event.pull_request.head.ref }}"'
+      - name: Current PR number
+        run: 'echo "Current PR number: ${{ github.event.pull_request.number }}"'
+      - name: Current PR title
+        run: 'echo "Current PR title: ${{ github.event.pull_request.title }}"'
+      - name: Current PR author
+        run: 'echo "Current PR author: ${{ github.event.pull_request.user.login }}"'
+      - name: current branch
+        run: 'echo "Current branch: ${{ github.head_ref }}"'
+      - name: Current commit
+        run: 'echo "Current commit: ${{ github.sha }}"'
+      - name: Current branch name
+        run: 'echo "Current branch name: ${{ github.ref }}"'
+
   test:
     strategy:
       matrix:
