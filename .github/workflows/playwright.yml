@@ -5,7 +5,7 @@ on:
       - main
       - master
   pull_request:
-    types: [ready_for_review, review_requested]
+    types: [ready_for_review, review_requested, synchronize]
     branches: [main, master]
 
 concurrency:
@@ -40,6 +40,12 @@ jobs:
         run: 'echo "Current commit: ${{ github.sha }}"'
       - name: Current branch name
         run: 'echo "Current branch name: ${{ github.ref }}"'
+      - name: Merge base
+        run: 'echo "Merge base: ${{ github.event.pull_request.base.sha }}"'
+      - name: Merge branch name
+        run: 'echo "Merge branch name: ${{ github.event.pull_request.base.ref }}"'
+      - name: Merge branch author
+        run: 'echo "Merge branch author: ${{ github.head_ref }}"'
 
   test:
     strategy:
