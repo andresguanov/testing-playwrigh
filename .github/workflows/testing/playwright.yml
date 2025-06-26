@@ -1,0 +1,76 @@
+name: Playwright Tests Testing
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    types: [ready_for_review, review_requested, synchronize]
+    branches: [main, master, testing]
+
+concurrency:
+  group: c-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Install dependencies
+        run: npm ci
+      - name: Run unit tests
+        run: echo "No unit tests to run"
+
+      - name: Current branches
+        run: 'echo "Current branches: ${{ github.event.pull_request.head.ref }}"'
+      - name: Current PR number
+        run: 'echo "Current PR number: ${{ github.event.pull_request.number }}"'
+      - name: Current PR title
+        run: 'echo "Current PR title: ${{ github.event.pull_request.title }}"'
+      - name: Current PR author
+        run: 'echo "Current PR author: ${{ github.event.pull_request.user.login }}"'
+      - name: current branch
+        run: 'echo "Current branch: ${{ github.head_ref }}"'
+      - name: Current commit
+        run: 'echo "Current commit: ${{ github.sha }}"'
+      - name: Current branch name
+        run: 'echo "Current branch name: ${{ github.ref }}"'
+      - name: Merge base
+        run: 'echo "Merge base: ${{ github.event.pull_request.base.sha }}"'
+      - name: Merge branch name
+        run: 'echo "Merge branch name: ${{ github.event.pull_request.base.ref }}"'
+      - name: Merge branch author
+        run: 'echo "Merge branch author: ${{ github.head_ref }}"'
+
+  test:
+    strategy:
+      matrix:
+        file: [example, example2]
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Run unit tests
+        run: echo "unit tests to ${{ matrix.file }}"
+      - name: Install dependencies
+        run: npm install @playwright/test
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: npx playwright test ${{ matrix.file }}.spec.ts
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to production
+        run: echo "Deploying to production"

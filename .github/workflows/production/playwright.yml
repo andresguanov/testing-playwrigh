@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: Playwright Tests Prod
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
       - master
   pull_request:
     types: [ready_for_review, review_requested, synchronize]
-    branches: [main, master]
+    branches: [main, master, testing]
 
 concurrency:
   group: c-${{ github.ref }}
