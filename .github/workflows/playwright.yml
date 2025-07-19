@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        file: [example, example2]
+        file: [example, example2, example3]
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
