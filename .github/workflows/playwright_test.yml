@@ -1,9 +1,5 @@
 name: Playwright Tests Prod
 on:
-  push:
-    branches:
-      - main
-      - master
   pull_request:
     types: [ready_for_review, review_requested, synchronize]
     branches: [main, master, testing]
