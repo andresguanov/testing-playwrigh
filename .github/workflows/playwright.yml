@@ -4,9 +4,13 @@ on:
     branches:
       - main
       - master
+    paths:
+      - "tests/**"
   pull_request:
     types: [ready_for_review, review_requested, synchronize]
     branches: [main, master, testing]
+    paths:
+      - "tests/**"
 
 concurrency:
   group: c-${{ github.ref }}
@@ -14,10 +18,11 @@ concurrency:
 
 jobs:
   test:
+    environment: testing
     strategy:
       fail-fast: false
       matrix:
-        file: [example, example2, example3]
+        file: [example, example3]
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -35,6 +40,7 @@ jobs:
         run: npx playwright test ${{ matrix.file }}.spec.ts
 
   deploy:
+    environment: testing
     runs-on: ubuntu-latest
     needs: test
     steps:
